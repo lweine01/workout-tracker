@@ -7,7 +7,9 @@ router.get("/api/workouts", (req, res) => {
     {
       $addFields: {
         totalDuration:
-          { $sum: "$exercises.duration" }
+          { $sum: "$exercises.duration" },
+        totalDistance:
+          { $sum: "$exercises.distance"}
       }
     }
   ]).then(dbWorkout => {
@@ -50,26 +52,13 @@ router.get("/api/workouts/range", (req, res) => {
       },
     }
   ])
-  .sort({day: -1})  
-  .limit(7)
     .then(dbWorkout => {
-      res.json(dbWorkout);
+      const lastSeven = dbWorkout.slice(-7);
+      res.json(lastSeven);
     })
     .catch(err => {
       res.status(400).json(err);
     }));
 });
-
-// router.get("/api/stats", (req, res) => {
-//   Workout.aggregate([
-//     { $match: {} },
-//     { $sum: { $weight } }
-//   ]).then(dbWorkout => {
-//     res.json(dbWorkout);
-//   })
-//     .catch(err => {
-//       res.status(400).json(err);
-//     });
-// })
 
 module.exports = router;

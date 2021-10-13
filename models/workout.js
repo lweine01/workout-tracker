@@ -23,7 +23,8 @@ const workoutSchema = new Schema({
             },
             weight: Number,
             reps: Number,
-            sets: Number
+            sets: Number,
+            distance: Number
         }
     ]
 });
